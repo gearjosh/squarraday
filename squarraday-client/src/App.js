@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import Square from "./Square";
-import WhatIsIt from "./WhatIsIt";
+import WhatIsThis from "./WhatIsThis";
 import squareService from "./services/squareService";
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
   let condish = null;
   if (specials) {
     condish = (
-      <WhatIsIt
+      <WhatIsThis
         square={specials.find(s => s.title === "what is this")}
         sizeMultiplier={sizeMultiplier}
       />

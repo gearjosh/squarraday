@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import React from "react";
 
-function WhatIsIt(props) { 
+function WhatIsThis(props) { 
   console.log(props); 
 
-  const WhatIsItContainer = styled.div`
+  const WhatIsThisContainer = styled.div`
     height: ${props.square.size * props.square.sizeMultiplier}vw;
     display: block;
     grid-column-start: 1;
@@ -21,13 +21,13 @@ function WhatIsIt(props) {
   `;
 
   return (
-    <WhatIsItContainer>
+    <WhatIsThisContainer>
       <Img 
         src={props.square.img} 
         alt={props.square.alt}
       />
-    </WhatIsItContainer>
+    </WhatIsThisContainer>
   );
 }
 
-export default WhatIsIt;
+export default WhatIsThis;
