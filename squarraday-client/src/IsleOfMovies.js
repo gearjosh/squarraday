@@ -22,10 +22,9 @@ function IsleOfMovies(props) {
 
   return (
     <IsleOfMoviesContainer>
-      <Img 
-        src={props.square.img} 
-        alt={props.square.alt}
-      />
+      <a href="https://letterboxd.com/otherjosh/" target="_blank">
+        <Img src={props.square.img} alt={props.square.alt} />
+      </a>
     </IsleOfMoviesContainer>
   );
 }
