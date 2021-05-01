@@ -1,35 +1,50 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
 import Square from "./Square";
+import WhatIsIt from "./WhatIsIt";
 import squareService from "./services/squareService";
 
 function App() {
   const sizeMultiplier = 7;
   const [squares, setSquares] = useState(null);
+  const [specials, setSpecials] = useState(null);
+  const [normals, setNormals] = useState(null);
 
   useEffect(() => {
     if(!squares) {
-      console.log('in the useEffect');
       getSquares();
+      console.log('squares: ', squares)
     }
   });
-
+  
   const getSquares = async () => {
     console.log("in getSquares");
     let res = await squareService.getAll();
     console.log('res: ', res);
     setSquares(res);
+    setSpecials(extractSpecials(res));
+    setNormals(dumpSpecials(res));
   };
 
-  const renderSquare = (square) => {
-    return (
-      <li key={square.title} className="list__item square">
-        <h3 className="square__name">{square.title}</h3>
-        <p className="square__description">{square.alt}</p>
-      </li>
-    )
-  }
+  const extractSpecials = (ary) => {
+    const specialArray = [];
+    ary.forEach((e) => {
+      if (e.special === "true") {
+        specialArray.push(e);
+      }
+    });
+    return specialArray;
+  };
+
+  const dumpSpecials = (ary) => {
+    const normalArray = [];
+    ary.forEach(e => {
+      if (e.special !== "true") {
+        normalArray.push(e);
+      }
+    })
+    return normalArray;
+  };
 
   const shuffle = (ogArray) => {
     const array = JSON.parse(JSON.stringify(ogArray));
@@ -49,39 +64,42 @@ function App() {
     grid-auto-flow: dense;
   `;
 
+  let condish = null;
+  if (specials) {
+    condish = (
+      <WhatIsIt
+        square={specials.find(s => s.title === "what is this")}
+        sizeMultiplier={sizeMultiplier}
+      />
+    );
+  } 
 
   return (
-    // <Grid>
+    <Grid>
+      {condish}
 
-    //   { squares === null ? (
-    //     <p>Loading...</p>
-    //   ) : squares.length === 0 ? (
-    //     <p>No squares available.</p>
-    //   ) : (
-    //     shuffle(squares).map((obj, i) => {
-    //       return (
-    //         <Square
-    //           img={obj.img}
-    //           alt={obj.title}
-    //           guestArtist={obj.guestArtist}
-    //           size={obj.size}
-    //           key={i}
-    //           gridSize={obj.size * sizeMultiplier}
-    //         />
-    //       );
-    //     })
-    //   )}
-    // </Grid>
+      { squares === null ? (
+        <p>Loading...</p>
+      ) : squares.length === 0 ? (
+        <p>No squares available.</p>
+      ) : (
 
-    <div className="App">
-      <ul className="list">
-        {(squares && squares.length > 0) ? (
-          squares.map(square => renderSquare(square))
-        ) : (
-          <p>No squares found</p>
-        )}
-      </ul>
-    </div>
+        normals.map(obj => {
+          return (
+            <Square
+              img={obj.img}
+              title={obj.title}
+              alt={obj.alt}
+              guestArtist={obj.guestArtist}
+              available={obj.available}
+              size={obj.size}
+              key={obj.title}
+              gridSize={obj.size * sizeMultiplier}
+            />
+          );
+        })
+      )}
+    </Grid>
   );
 }
 
