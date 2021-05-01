@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import Square from "./Square";
 import WhatIsThis from "./WhatIsThis";
+import IsleOfMovies from "./IsleOfMovies";
 import squareService from "./services/squareService";
 
 function App() {
@@ -64,11 +65,18 @@ function App() {
     grid-auto-flow: dense;
   `;
 
-  let condish = null;
+  let condish1 = null;
+  let condish2 = null;
   if (specials) {
-    condish = (
+    condish1 = (
       <WhatIsThis
         square={specials.find(s => s.title === "what is this")}
+        sizeMultiplier={sizeMultiplier}
+      />
+    );
+    condish2 = (
+      <IsleOfMovies
+        square={specials.find(s => s.title === "isle of movies")}
         sizeMultiplier={sizeMultiplier}
       />
     );
@@ -76,15 +84,15 @@ function App() {
 
   return (
     <Grid>
-      {condish}
+      {condish1}
+      {condish2}
 
-      { squares === null ? (
+      {normals === null ? (
         <p>Loading...</p>
-      ) : squares.length === 0 ? (
+      ) : normals.length === 0 ? (
         <p>No squares available.</p>
       ) : (
-
-        normals.map(obj => {
+        shuffle(normals).map((obj) => {
           return (
             <Square
               img={obj.img}
