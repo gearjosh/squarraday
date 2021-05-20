@@ -30,6 +30,10 @@ const squareSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  special: {
+    type: Boolean,
+    required: true,
+  }
 });
 
 mongoose.model("squares", squareSchema);

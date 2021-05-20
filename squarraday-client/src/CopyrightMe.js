@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import React from "react";
 
-function WhatIsThis(props) { 
+function CopyrightMe(props) { 
 
-  const WhatIsThisContainer = styled.div`
+  const CopyrightMeContainer = styled.div`
     height: ${props.square.size * props.square.sizeMultiplier}vw;
     display: block;
-    grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-start: 14;
+    grid-column-end: 15;
     grid-row-start: 1;
-    grid-row-end: 3;
+    grid-row-end: 2;
     overflow: hidden;
     cursor: pointer;
   `;
@@ -21,13 +21,12 @@ function WhatIsThis(props) {
   `;
 
   return (
-    <WhatIsThisContainer>
-      <Img 
-        src={props.square.img} 
-        alt={props.square.alt}
-      />
-    </WhatIsThisContainer>
+    <CopyrightMeContainer
+      onClick={props.onClick}
+    >
+      <Img src={props.square.img} alt={props.square.alt} />
+    </CopyrightMeContainer>
   );
 }
 
-export default WhatIsThis;
+export default CopyrightMe;
