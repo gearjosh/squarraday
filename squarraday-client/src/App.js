@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import squareService from "./services/squareService";
@@ -16,13 +15,17 @@ function App() {
   const [squares, setSquares] = useState(null);
   const [specials, setSpecials] = useState(null);
   const [normals, setNormals] = useState(null);
+  const [form, setForm] = useState({
+    available: "false",
+    guestArtist: "false",
+    special: "false"
+  })
   const [copyrightModalIsOpen, setCopyrightModalIsOpen] = useState(false);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
 
   useEffect(() => {
     if(!squares) {
       getSquares();
-      console.log('squares: ', squares)
     }
   });
   
@@ -30,12 +33,33 @@ function App() {
     let res = await squareService.getAll();
     console.log('res: ', res);
     setSpecials(extractSpecials(res));
-    setNormals(dumpSpecials(res));
+    setNormals(shuffle(dumpSpecials(res)));
     setSquares(res);
   };
 
+  const createSquare = async () => {
+    console.log('form: ', form)
+
+    squares.every(sq => {
+      if (
+        sq.title === form.title ||
+        sq.alt === form.alt ||
+        sq.img === form.img )
+      {
+        alert("There is already a square like this! Weee-Oooo-Weee-Ooooo!")
+        return false;
+      } else {
+        return true;
+      }
+    })
+
+    await squareService.create(form);
+    getSquares();
+  }
+
   const extractSpecials = (ary) => {
     const specialArray = [];
+
     ary.forEach((e) => {
       if (e.special === true) {
         specialArray.push(e);
@@ -55,9 +79,7 @@ function App() {
   };
 
   const openCopyrightModal = () => {
-    console.log('copyrightModalIsOpen: ', copyrightModalIsOpen)
     setCopyrightModalIsOpen(true);
-    console.log("copyrightModalIsOpen: ", copyrightModalIsOpen);
   };
 
   const closeCopyrightModal = () => {
@@ -65,9 +87,7 @@ function App() {
   };
 
   const openAdminModal = () => {
-    console.log("adminModalIsOpen: ", adminModalIsOpen);
     setAdminModalIsOpen(true);
-    console.log("adminModalIsOpen: ", adminModalIsOpen);
   };
 
   const closeAdminModal = () => {
@@ -85,12 +105,19 @@ function App() {
     return array;
   };
 
-  const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(${sizeMultiplier}vw, 1fr));
+  const handleChange = (event) => {
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value
+    })
+  }
+
+  const gridStyle = {
+    display: "grid",
+    gridTemplateColumns: `repeat(auto-fill, minmax(${sizeMultiplier}vw, 1fr))`,
     /* grid-auto-rows: 1fr; */
-    grid-auto-flow: dense;
-  `;
+    gridAutoFlow: "dense"
+  }
 
   const modalStyle = {
     content: {
@@ -139,7 +166,7 @@ function App() {
   } 
 
   return (
-    <Grid>
+    <div style={gridStyle}>
       {condish1}
       {condish2}
       {condish3}
@@ -168,6 +195,54 @@ function App() {
       </Modal>
 
       <Modal isOpen={adminModalIsOpen} style={modalStyle}>
+        <input
+          name="title"
+          placeholder="title"
+          type="text"
+          onChange={(e) => handleChange(e)}
+        />
+        <input
+          name="alt"
+          placeholder="alt"
+          type="text"
+          onChange={(e) => handleChange(e)}
+        />
+        <input
+          name="size"
+          placeholder="size"
+          type="text"
+          onChange={(e) => handleChange(e)}
+        />
+        <input
+          name="hoverText"
+          placeholder="hoverText"
+          type="text"
+          onChange={(e) => handleChange(e)}
+        />
+        <input
+          name="img"
+          placeholder="img"
+          type="text"
+          onChange={(e) => handleChange(e)}
+        />
+
+        <select name="available" onChange={(e) => handleChange(e)}>
+          <option value="true">available</option>
+          <option value="false">unavailable</option>
+        </select>
+
+        <select name="guestArtist" onChange={(e) => handleChange(e)}>
+          <option value="false">drawn by me</option>
+          <option value="true">guest artist</option>
+        </select>
+
+        <select name="special" onChange={(e) => handleChange(e)}>
+          <option value="false">normal square</option>
+          <option value="true">special square</option>
+        </select>
+
+        <button onClick={createSquare}>create square</button>
+
         <button onClick={closeAdminModal}>Cool</button>
       </Modal>
 
@@ -176,7 +251,7 @@ function App() {
       ) : normals.length === 0 ? (
         <p>No squares available.</p>
       ) : (
-        shuffle(normals).map((obj) => {
+        normals.map((obj) => {
           return (
             <Square
               img={obj.img}
@@ -185,13 +260,14 @@ function App() {
               guestArtist={obj.guestArtist}
               available={obj.available}
               size={obj.size}
+              hoverText={obj.hoverText}
               key={obj.title}
               gridSize={obj.size * sizeMultiplier}
             />
           );
         })
       )}
-    </Grid>
+    </div>
   );
 }
 

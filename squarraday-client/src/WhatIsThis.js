@@ -1,33 +1,34 @@
-import styled from "styled-components";
 import React from "react";
 
 function WhatIsThis(props) { 
 
-  const WhatIsThisContainer = styled.div`
-    height: ${props.square.size * props.square.sizeMultiplier}vw;
-    display: block;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 3;
-    overflow: hidden;
-    cursor: pointer;
-  `;
+  const whatIsThisStyle = {
+    height: `${props.square.size * props.square.sizeMultiplier}vw`,
+    display: "block",
+    gridColumnStart: "1",
+    gridColumnEnd: "3",
+    gridRowStart: "1",
+    gridRowEnd: "3",
+    overflow: "hidden",
+    cursor: "pointer"
+  }
 
-  const Img = styled.img`
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  `;
+  const imgStyle = {
+    objectFit: "cover",
+    width: "100%",
+    height: "100%"
+  }
 
   return (
-    <WhatIsThisContainer>
-      <Img 
+    <div
+      style={whatIsThisStyle} >
+      <img
+        style={imgStyle}
         src={props.square.img} 
         alt={props.square.alt}
       />
-    </WhatIsThisContainer>
-  );
+    </div>
+  )
 }
 
 export default WhatIsThis;

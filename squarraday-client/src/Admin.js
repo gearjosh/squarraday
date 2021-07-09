@@ -1,29 +1,31 @@
-import styled from "styled-components";
 import React from "react";
 
 function Admin(props) {  
 
-  const AdminContainer = styled.div`
-    height: ${props.square.size * props.square.sizeMultiplier}vw;
-    display: block;
-    grid-column-end: 12;
-    grid-row-end: 7;
-    overflow: hidden;
-    cursor: pointer;
-  `;
+  const adminContainerStyle = {
+    height: `${props.square.size * props.square.sizeMultiplier}vw`,
+    display: "block",
+    gridColumnEnd: "12",
+    gridRowEnd: "7",
+    overflow: "hidden",
+    cursor: "pointer"
+  }
 
-  const Img = styled.img`
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  `;
+  const imgStyle = {
+    objectFit: "cover",
+    width: "100%",
+    height: "100%"
+  }
 
   return (
-    <AdminContainer
-      onClick={props.onClick}
-    >
-      <Img src={props.square.img} alt={props.square.alt} />
-    </AdminContainer>
+    <div
+      style={adminContainerStyle}
+      onClick={props.onClick} >
+      <img 
+        style={imgStyle} 
+        src={props.square.img} 
+        alt={props.square.alt} />
+    </div>
   );
 }
 

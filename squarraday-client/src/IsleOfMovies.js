@@ -1,31 +1,35 @@
-import styled from "styled-components";
 import React from "react";
 
 function IsleOfMovies(props) { 
-  console.log(props); 
 
-  const IsleOfMoviesContainer = styled.div`
-    height: ${props.square.size * props.square.sizeMultiplier}vw;
-    display: block;
-    grid-column-start: 13;
-    grid-column-end: 15;
-    grid-row-start: 3;
-    grid-row-end: 5;
-    overflow: hidden;
-  `;
+  const isleOfMoviesStyle = {
+    height: `${props.square.size * props.square.sizeMultiplier}vw`,
+    display: "block",
+    gridColumnStart: "13",
+    gridColumnEnd: "15",
+    gridRowStart: "3",
+    gridRowEnd: "5",
+    overflow: "hidden"
+  }
 
-  const Img = styled.img`
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  `;
+  const imgStyle = {
+    objectFit: "cover",
+    width: "100%",
+    height: "100%",
+  }
+
+
 
   return (
-    <IsleOfMoviesContainer>
-      <a href="https://letterboxd.com/otherjosh/" target="_blank">
-        <Img src={props.square.img} alt={props.square.alt} />
+    <div style={isleOfMoviesStyle}>
+      <a
+        href="https://letterboxd.com/otherjosh/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img style={imgStyle} src={props.square.img} alt={props.square.alt} />
       </a>
-    </IsleOfMoviesContainer>
+    </div>
   );
 }
 

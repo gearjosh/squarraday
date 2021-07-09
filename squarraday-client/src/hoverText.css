@@ -1,0 +1,9 @@
+[hoverText]:before {
+  position : absolute;
+  opacity : 0;
+  content : attr(hoverText);
+}
+
+[hoverText]:hover:before {        
+    opacity : 1;
+}
