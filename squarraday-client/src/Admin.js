@@ -5,11 +5,11 @@ function Admin(props) {
   const adminContainerStyle = {
     height: `${props.square.size * props.square.sizeMultiplier}vw`,
     display: "block",
-    gridColumnEnd: "12",
+    gridColumnEnd: Math.floor(Math.random() * 14) + 1,
     gridRowEnd: "7",
     overflow: "hidden",
-    cursor: "pointer"
-  }
+    // cursor: "pointer"
+  };
 
   const imgStyle = {
     objectFit: "cover",
