@@ -24,7 +24,8 @@ function Admin(props) {
       <img 
         style={imgStyle} 
         src={props.square.img} 
-        alt={props.square.alt} />
+        alt={props.square.alt}
+        title={props.square.title} />
     </div>
   );
 }
